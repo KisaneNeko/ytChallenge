@@ -1,0 +1,49 @@
+Napisz aplikacje, ktora bedzie uzywac:
+. stacku angularowego (angular w najnowszej wersji, bower do
+zarzadzania dependencjami, grunt server)
+. angular material
+. API zewnetrznych (youtube API, vimeo)
+. stacku testowego (karma, chai, sinon) - to dodatkowo
+
+Aplikacja ma za zadanie przechowywac ulubione filmy uzytkownika w
+ramach strony. (TYMCZASOWO obslugujemy filmy z youtube i vimeo)
+
+Uzytkownik moze dodac film na strone poprzez input dostepny na stronie
+glownej i wklejenie:
+. paska adresu filmu, czyli np.:
+https://www.youtube.com/watch?v=4JOAqRS_lms lub
+https://youtu.be/vJ3a_AuEW18 lub https://vimeo.com/138882294
+. identyfikatora filmu, czyli np.: vJ3a_AuEW18
+
+Filmy powinny byc wylistowane z danymi takimi jak:
+. ilosc odtworzen
+. ilosc polubien
+. nazwe filmu
+. miniaturka filmu
+. date dodania do biblioteki
+
+i akcjami takimi jak:
+. obejrzyj (rowniez po kliknieciu w miniaturke, film wtedy otwiera sie w modalu)
+. usun
+. dodaj do ulubionych
+
+Lista filmow powinna:
+. posiadac paginacje (z mozliwoscia wyboru liczby elementow na stronie
+- 5 / 10 / 20 / 50 / 100)
+. posiadac mozliwosc wyboru rodzaju displayu (kafelki albo lista)
+. posiadac mozliwosc wyczyszczenia wszystkich filmow
+. posiadac mozliwosc wgrania demo filmow (czyli wczytania jakiejs bazy
+filmow o idkach zapisanych w aplikacji)
+. filtr "tylko ulubione" - pokazujacy tylko ulubione filmy
+. sortowanie po najstarsze / ostatnio dodane
+
+Filmy powinny byc dostepne rowniez po zamknieciu i ponownym otworzeniu
+przegladarki.
+
+dodatkowe zadania:
+. pelne pokrycie testowe
+
+
+ps. jezeli cos jest dla Ciebie problemem juz na starcie (np.
+konfiguracja bowera / grunta) - daj znac. teraz nie mozemy marnowac
+czasu na "dojdz do tego"
