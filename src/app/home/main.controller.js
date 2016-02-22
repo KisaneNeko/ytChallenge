@@ -1,32 +1,28 @@
 export class MainController {
-  constructor ($timeout, webDevTec, toastr) {
+  constructor ($timeout, webDevTec, toastr, $sce, videoService) {
     'ngInject';
+    const self = this;
+    const ytPrefix = 'https://www.youtube.com/v/';
 
-    this.awesomeThings = [];
-    this.classAnimation = '';
-    this.creationDate = 1455779867704;
-    this.toastr = toastr;
+    this.videos = [
+      {id : 1, url:'Pecj5GGjQi8', title: '', date_created: '2016-02-18 09:28'},
+      {id : 2, url:'VAerYplzZUE', title: '',date_created: '2016-02-17 10:28'},
+      {id : 3, url:'oQBiPwklN_Q', title: '',date_created: '2016-02-17 07:28'}
+    ];
+    this.video_details = [];
 
-    this.activate($timeout, webDevTec);
-  }
+    this.getTrustedUrl = (index) => {
+      return $sce.trustAsResourceUrl(ytPrefix + this.videos[index].url)
+    };
 
-  activate($timeout, webDevTec) {
-    this.getWebDevTec(webDevTec);
-    $timeout(() => {
-      this.classAnimation = 'rubberBand';
-    }, 4000);
-  }
+    // test pobrania wideo
+    (function () {
 
-  getWebDevTec(webDevTec) {
-    this.awesomeThings = webDevTec.getTec();
+      videoService.getYoutubeVideos('Pecj5GGjQi8').then(function(videoData) {
+        var data = videoData.data.items[0];
+        self.videos[0].title = data.snippet.title;
+      });
 
-    angular.forEach(this.awesomeThings, (awesomeThing) => {
-      awesomeThing.rank = Math.random();
-    });
-  }
-
-  showToastr() {
-    this.toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
-    this.classAnimation = '';
+    }());
   }
 }

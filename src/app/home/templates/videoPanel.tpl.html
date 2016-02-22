@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="menu-category list-group">
+  <div class="menu-category-name list-group-item active">{{ytVid.title}}</div>
+  <div class="menu-item list-group-item videoBox">
+    <iframe ng-src="{{ ytVid.url({index: ytVid.index}) }}" frameborder="0" allowfullscreen></iframe>
+    <span>
+      Opis filmiku bla bla bla
+    </span>
+  </div>
+</div>

@@ -12,3 +12,8 @@
 .thumbnail img.pull-right {
   width: 50px;
 }
+
+.videoBox {
+  height: 300px;
+  text-align: center;
+}

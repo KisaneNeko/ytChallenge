@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div>
+  <div class="col-md-4" ng-repeat="video in main.videos">
+    <video-panel title="{{video.title}}" url="main.getTrustedUrl(index)" index="{{$index}}" created="{{video.created"}}></video-panel>
+  </div>
+</div>

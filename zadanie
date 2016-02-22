@@ -47,3 +47,9 @@ dodatkowe zadania:
 ps. jezeli cos jest dla Ciebie problemem juz na starcie (np.
 konfiguracja bowera / grunta) - daj znac. teraz nie mozemy marnowac
 czasu na "dojdz do tego"
+
+
+
+fun tasks;
+dodac dyrektywe spinner. ktora po dodaniu atrybutu np. spin zablokuje możliwość kliknięcia na element w którym jest filmik,
+wstawi klasę która np. zmieni wyglad okna sugerujac ze nie mozna tam kliknąć i wyswietli na tym spinner.
