@@ -1,0 +1,21 @@
+<div class="menu-category list-group col-md-12">
+  <div class="menu-category-name list-group-item active">Add new video</div>
+  <div class="menu-item list-group-item">
+    <div class="video-add-form form-inline">
+      <label class="control-label">Id filmiku:
+        <input class="form-control" type="text"
+               ng-model="main.tmp_video.url"
+               ng-model-options="{ debounce: 1500 }"
+               ng-change="main.getPreview()">
+      </label>
+    </div>
+    <div class="video-preview" ng-show="main.showPreview">
+        blbllb;
+
+      <div class="button btn btn-default" ng-click="main.addTmpVideo()">Dodaj</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- random video id: HmWm21cCAXM -->

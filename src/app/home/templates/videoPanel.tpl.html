@@ -1,9 +1,17 @@
 <div class="menu-category list-group">
   <div class="menu-category-name list-group-item active">{{ytVid.title}}</div>
-  <div class="menu-item list-group-item videoBox">
-    <iframe ng-src="{{ ytVid.url({index: ytVid.index}) }}" frameborder="0" allowfullscreen></iframe>
-    <span>
-      Opis filmiku bla bla bla
-    </span>
-  </div>
+  <article class="menu-item list-group-item videoBox">
+    <div class="video">
+      <iframe ng-src="{{ ytVid.url({index: ytVid.index}) }}" frameborder="0" allowfullscreen></iframe>
+      <div class="col-md-6">Views: {{ytVid.vid.viewCount | number}}</div>
+      <div class="col-md-6">Likes: {{ytVid.vid.likeCount | number}}</div>
+
+      <div class="button btn"
+           ng-class="ytVid.vid.favorite ? 'btn-danger' : 'btn-default'"
+           ng-click="ytVid.vid.favorite = !ytVid.vid.favorite"
+           ng-show="true" >
+        {{ytVid.vid.favorite ? 'Usuń z ulubionych' : 'Dodaj do ulubionych'}}
+      </div>
+    </div>
+  </article>
 </div>

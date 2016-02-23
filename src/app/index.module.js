@@ -9,6 +9,7 @@ import { WebDevTecService } from '../app/components/webDevTec/webDevTec.service'
 import { NavbarDirective } from '../app/components/navbar/navbar.directive';
 import { MalarkeyDirective } from '../app/components/malarkey/malarkey.directive';
 import { VideoPanelDirective } from '../app/home/directives/videoPanel.directive';
+import { VideoAddDirective } from '../app/home/directives/videoAdd.directive';
 import { VideoPanelService } from '../app/home/services/videoPanel.service';
 import { VideoAddController } from '../app/videoAdd/videoAdd.controller';
 
@@ -25,4 +26,5 @@ angular.module('ytChallenge', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize'
   .controller('VideoAddController', VideoAddController)
   .directive('acmeNavbar', NavbarDirective)
   .directive('acmeMalarkey', MalarkeyDirective)
-  .directive('videoPanel', VideoPanelDirective);
+  .directive('videoPanel', VideoPanelDirective)
+  .directive('videoAdd', VideoAddDirective);

@@ -10,18 +10,13 @@ export function VideoPanelDirective() {
       title : '@',
       index : '@',
       url: '&',
-      created: '@'
+      vid: '='
     },
     templateUrl: 'app/home/templates/videoPanel.tpl.html',
     bindToController: true,
     controllerAs: 'ytVid',
-    controller: () => {},
-    link: videoPanelLink
+    controller: () => {}
   };
 }
-
-let videoPanelLink = (scope, element, attributes) => {
-};
-
 
 
