@@ -24,19 +24,34 @@ export class VideoPanelService {
       }).join(",");
 
       return sendRequestForVideos(video_ids).then((resp) => {
-        console.log(resp);
-         return prepareVideoData(vids_basic_info, resp.data.items);
+        let videos_info = resp.data.items;
+        if(videos_info.length !== 0) {
+          return prepareVideoData(vids_basic_info, resp.data.items);
+        }
       });
     };
 
 
+    let handleSuccess = (response) => {
+      return {
+        status: 'success',
+        data: response.data
+      };
+    };
+
+
+    let handleErr = (response) => {
+      $log.error('HTTP request failed with status:' + response.status);
+      return { status: 'fail' }
+    };
+
     /**
-     * Jak wysylam request po X filmow w danej kolejnosci to jak upewnic się czy sie nie pomieszaja, jak jeden
+     * @TODO: Jak wysylam request po X filmow w danej kolejnosci to jak upewnic się czy sie nie pomieszaja, jak jeden
      * id bedzie nieprawidlowy
      *
      * @param basics
      * @param details
-       */
+     */
     function prepareVideoData(basics, details) {
       return basics.map((vid, ind) => {
         let snippet = details[ind].snippet;
@@ -54,15 +69,6 @@ export class VideoPanelService {
         }
       })
     }
-
-
-    let handleSuccess = (response) => {
-      return response;
-    };
-
-    let handleErr = () => {
-      $log.error('HTTP request failed');
-    };
 
     return {
       getYoutubeVideos

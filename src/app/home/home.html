@@ -5,7 +5,7 @@
     </div>
   </div>
   <div class="col-md-4" ng-repeat="video in main.video_details">
-    <video-panel title="{{video.title}}" url="main.getTrustedUrl(index)" index="{{$index}}" vid="video"></video-panel>
+    <video-panel title="{{video.title}}" vid-url="{{main.ytPrefix + video.url}}" index="{{$index}}" vid="video"></video-panel>
   </div>
 
   <video-add></video-add>

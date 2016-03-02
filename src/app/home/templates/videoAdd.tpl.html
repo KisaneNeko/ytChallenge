@@ -5,14 +5,16 @@
       <label class="control-label">Id filmiku:
         <input class="form-control" type="text"
                ng-model="main.tmp_video.url"
-               ng-model-options="{ debounce: 1500 }"
+               ng-model-options="{ debounce: 500 }"
                ng-change="main.getPreview()">
       </label>
     </div>
-    <div class="video-preview" ng-show="main.showPreview">
-        blbllb;
+    <div class="video-preview" ng-if="main.showPreview">
 
-      <div class="button btn btn-default" ng-click="main.addTmpVideo()">Dodaj</div>
+      <video-panel title="{{main.tmp_video.title}}" vid-url="{{main.ytPrefix + main.tmp_video.url}}" vid="main.tmp_video.video"></video-panel>
+
+      <div class="button btn btn-default" ng-click="main.addTmpVideo()">Dodaj do biblioteki</div>
+      <div class="button btn btn-default" ng-click="main.clearTmpVideo()">Anuluj</div>
     </div>
   </div>
 </div>

@@ -11,9 +11,8 @@ import { MalarkeyDirective } from '../app/components/malarkey/malarkey.directive
 import { VideoPanelDirective } from '../app/home/directives/videoPanel.directive';
 import { VideoAddDirective } from '../app/home/directives/videoAdd.directive';
 import { VideoPanelService } from '../app/home/services/videoPanel.service';
-import { VideoAddController } from '../app/videoAdd/videoAdd.controller';
 
-angular.module('ytChallenge', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ui.bootstrap', 'toastr'])
+angular.module('ytChallenge', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ui.bootstrap', 'toastr', 'ngStorage'])
   .constant('malarkey', malarkey)
   .constant('moment', moment)
   .config(config)
@@ -23,7 +22,6 @@ angular.module('ytChallenge', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize'
   .service('webDevTec', WebDevTecService)
   .service('videoService', VideoPanelService)
   .controller('MainController', MainController)
-  .controller('VideoAddController', VideoAddController)
   .directive('acmeNavbar', NavbarDirective)
   .directive('acmeMalarkey', MalarkeyDirective)
   .directive('videoPanel', VideoPanelDirective)

@@ -6,6 +6,6 @@ export function VideoAddDirective() {
 
     return {
         restrict: 'E',
-        templateUrl: 'app/home/templates/videoAdd.tpl.html',
+        templateUrl: 'app/home/templates/videoAdd.tpl.html'
     }
 }
