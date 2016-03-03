@@ -1,28 +1,26 @@
 export class MainController {
-  constructor ($timeout, webDevTec, toastr, $sce, videoService, $localStorage, $log) {
+  constructor ($timeout, webDevTec, toastr, $sce, videoService, $log) {
     'ngInject';
-
     this.videoService = videoService;
     this.$log = $log;
     this.showPreview = false;
     this.video_details = [];
     this.tmp_video = {};
 
-    // mock data.
-    //this.videos = [
-    //  {id : 1, url:'Pecj5GGjQi8', date_created: '2016-02-18 09:28'},
-    //  {id : 2, url:'VAerYplzZUE', date_created: '2016-02-17 10:28'},
-    //  {id : 3, url:'oQBiPwklN_Q', date_created: '2016-02-17 07:28'}
-    //];
-    this.videos = [];
+    let videoInfoHelper;
 
-    let videoInfoHelper = [];
+    this.videos = this.getVideosFromStorage();
 
+    videoInfoHelper = this.getVideoInfo(this.videos);
     this.video_details = videoInfoHelper ? videoInfoHelper : this.video_details;
   }
 
-  getVideoInfo(vids = this.videos) {
+  getVideoInfo(vids) {
     this.videoService.getYoutubeVideos(vids).then((videos_data) => {
+      if(videos_data) {
+        // do wywalenia jak ogarnę jak to zrobic immutable
+        this.video_details = videos_data;
+      }
       return videos_data ? videos_data : [];
     });
   }
@@ -50,6 +48,7 @@ export class MainController {
       newVideo.date_created = Date.now();
       newVideo.id  = this.video_details ? this.video_details.length : 0;
       this.video_details.push(newVideo);
+      this.storeVideos(newVideo);
       this.clearTmpVideo();
   }
 
@@ -67,5 +66,18 @@ export class MainController {
     const shorthandUrl = `https://www.youtube.com/v/${video_id}`;
     const fullUrl = `https://www.youtube.com/watch?v=${video_id}`;
     return { shorthandUrl, fullUrl };
+  }
+
+  storeVideos (video_data) {
+    this.videoService.storeVideos(video_data);
+  }
+
+  getVideosFromStorage () {
+    return this.videoService.getVideosFromStorage();
+  }
+
+  clearStoredVideos() {
+    this.videoService.clearStoredVideos();
+    this.video_details = [];
   }
 }

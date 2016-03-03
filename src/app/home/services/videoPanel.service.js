@@ -2,11 +2,12 @@
  * Created by nowacki on 18.02.2016.
  */
 export class VideoPanelService {
-  constructor ($http, $log) {
+  constructor ($http, $log, $localStorage) {
     'ngInject'
 
     this.$http = $http;
     this.$log = $log;
+    this.$localStorage = $localStorage;
   }
 
   /**
@@ -69,5 +70,17 @@ export class VideoPanelService {
       status: 'success',
       data: response.data
     }
+  }
+
+  storeVideos(video_data) {
+    this.$localStorage.videos.push(video_data);
+  }
+
+  getVideosFromStorage() {
+    return this.$localStorage.videos;
+  }
+
+  clearStoredVideos() {
+    this.$localStorage.videos = [];
   }
 }
