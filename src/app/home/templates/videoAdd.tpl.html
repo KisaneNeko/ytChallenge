@@ -10,8 +10,7 @@
       </label>
     </div>
     <div class="video-preview" ng-if="main.showPreview">
-
-      <video-panel title="{{main.tmp_video.title}}" vid-url="{{main.ytPrefix + main.tmp_video.url}}" vid="main.tmp_video.video"></video-panel>
+      <video-panel title="{{main.tmp_video.title}}" get-video-full-url="main.getVideoFullUrl(video_id, is_shorthand)" is-preview="true" vid="main.tmp_video"></video-panel>
 
       <div class="button btn btn-default" ng-click="main.addTmpVideo()">Dodaj do biblioteki</div>
       <div class="button btn btn-default" ng-click="main.clearTmpVideo()">Anuluj</div>

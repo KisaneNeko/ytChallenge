@@ -4,9 +4,8 @@
       <label><input type="checkbox" ng-model="main.randomFilter">Only favorites</label>
     </div>
   </div>
-  <div class="col-md-4" ng-repeat="video in main.video_details">
-    <video-panel title="{{video.title}}" vid-url="{{main.ytPrefix + video.url}}" index="{{$index}}" vid="video"></video-panel>
+  <div class="col-md-4" ng-repeat="video in main.video_details track by video.url">
+    <video-panel title="{{video.title}}" get-video-full-url="main.getVideoFullUrl(video_id)" index="{{$index}}" vid="video"></video-panel>
   </div>
-
   <video-add></video-add>
 </div>

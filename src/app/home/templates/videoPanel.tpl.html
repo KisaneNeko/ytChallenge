@@ -2,14 +2,19 @@
   <div class="menu-category-name list-group-item active">{{::ytVid.title}}</div>
   <article class="menu-item list-group-item videoBox">
     <div class="video">
-      <iframe ng-src="{{:: ytVid.videoUrl }}" frameborder="0" allowfullscreen></iframe>
-      <div class="col-md-6">Views: {{:: ytVid.vid.viewCount | number}}</div>
-      <div class="col-md-6">Likes: {{:: ytVid.vid.likeCount | number}}</div>
-
-      <div class="button btn"
-           ng-class="ytVid.vid.favorite ? 'btn-danger' : 'btn-default'"
-           ng-click="ytVid.vid.favorite = !ytVid.vid.favorite">
-        {{ytVid.vid.favorite ? 'Usuń z ulubionych' : 'Dodaj do ulubionych'}}
+      <iframe ng-src="{{:: ytVid.shorthandUrl }}" frameborder="0" allowfullscreen></iframe>
+      <div class="video-description col-md-12">
+        <div>
+          Views: {{:: ytVid.vid.viewCount | number}}
+          <i class="fa fa-thumbs-o-up"></i>{{:: ytVid.vid.likeCount | number}}
+        </div>
+        <div><a href="{{:: ytVid.fullUrl }}" target="_blank">Watch on <i class="fa fa-youtube"></i></a></div>
+        <div class="button btn"
+             ng-if="!ytVid.isPreview"
+             ng-class="ytVid.vid.favorite ? 'btn-danger' : 'btn-default'"
+             ng-click="ytVid.vid.favorite = !ytVid.vid.favorite">
+          {{ytVid.vid.favorite ? 'Usuń z ulubionych' : 'Dodaj do ulubionych'}}
+        </div>
       </div>
     </div>
   </article>
