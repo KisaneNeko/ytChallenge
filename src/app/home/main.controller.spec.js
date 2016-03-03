@@ -30,3 +30,26 @@
 //    expect(vm.awesomeThings.length === 5).toBeTruthy();
 //  });
 //});
+
+describe("MainController", () => {
+  let vm;
+
+  const mockData = {
+    ytShorthandUrlPrefix: 'https://www.youtube.com/v/',
+    ytFullUrlPrefix: 'https://www.youtube.com/watch?v=',
+    mockVideoId: 'HmWm21cCAXM'
+  };
+
+  beforeEach(angular.mock.module("ytChallenge"));
+
+  beforeEach(inject(($controller) => {
+    vm = $controller('MainController');
+  }));
+
+  it('should return object containing full youtube addresses', () => {
+    expect(vm.getVideoFullUrl(mockData.mockVideoId)).toBe({
+      shorthandUrl: mockData.ytShorthandUrlPrefix + mockData.mockVideoId + 'aaa',
+      fullUrl: mockData.ytFullUrlPrefix + mockData.mockVideoId
+    })
+  });
+});
