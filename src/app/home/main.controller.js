@@ -9,8 +9,7 @@ export class MainController {
 
     let videoInfoHelper;
 
-    this.videos = this.getVideosFromStorage();
-
+    this.videos = this.videoService.getVideosFromStorage() || [];
     videoInfoHelper = this.getVideoInfo(this.videos);
     this.video_details = videoInfoHelper ? videoInfoHelper : this.video_details;
   }
@@ -34,6 +33,11 @@ export class MainController {
     this.showPreview = false;
     if(!video.url) return;
 
+    if(this.video_details.some(vid => video.url === vid.url)) {
+      this.$log.error('This video is already in the library');
+      return;
+    }
+
     return this.videoService.getYoutubeVideos([ video ]).then(
       videos_data => {
         if(videos_data) {
@@ -48,7 +52,7 @@ export class MainController {
       newVideo.date_created = Date.now();
       newVideo.id  = this.video_details ? this.video_details.length : 0;
       this.video_details.push(newVideo);
-      this.storeVideos(newVideo);
+      this.videoService.storeVideos(newVideo);
       this.clearTmpVideo();
   }
 
@@ -68,16 +72,31 @@ export class MainController {
     return { shorthandUrl, fullUrl };
   }
 
-  storeVideos (video_data) {
-    this.videoService.storeVideos(video_data);
-  }
-
-  getVideosFromStorage () {
-    return this.videoService.getVideosFromStorage();
-  }
-
   clearStoredVideos() {
     this.videoService.clearStoredVideos();
     this.video_details = [];
+  }
+
+  openVideoModal(url) {
+    this.videoService.openVideoModal(url);
+  }
+
+  deleteVideo(index) {
+    this.videoService.deleteVideo(index);
+    this.video_details.splice(index, 1);
+  }
+
+  manageFavorite(index) {
+    this.$log.debug('aaa');
+    this.$log.debug(index);
+    this.videoService.manageFavorite(index);
+    this.video_details[index].favorite = !this.video_details[index].favorite;
+  }
+
+
+
+
+  logVideos() {
+    this.$log.debug(this.video_details);
   }
 }

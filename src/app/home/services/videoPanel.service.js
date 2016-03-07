@@ -2,12 +2,13 @@
  * Created by nowacki on 18.02.2016.
  */
 export class VideoPanelService {
-  constructor ($http, $log, $localStorage) {
+  constructor ($http, $log, $localStorage, $modal) {
     'ngInject'
 
     this.$http = $http;
     this.$log = $log;
     this.$localStorage = $localStorage;
+    this.$modal = $modal;
   }
 
   /**
@@ -30,7 +31,7 @@ export class VideoPanelService {
       thumbnailUrl: snippet.thumbnails.medium.url,
       likeCount: stats.likeCount,
       viewCount: stats.viewCount,
-      favorite: false
+      favorite: !!vid.favorite
       }
     })
   }
@@ -73,6 +74,10 @@ export class VideoPanelService {
   }
 
   storeVideos(video_data) {
+    if(!this.$localStorage.videos) {
+      this.$localStorage.videos = [];
+    }
+
     this.$localStorage.videos.push(video_data);
   }
 
@@ -82,5 +87,28 @@ export class VideoPanelService {
 
   clearStoredVideos() {
     this.$localStorage.videos = [];
+  }
+
+  openVideoModal (url) {
+    this.$modal.open({
+      templateUrl: 'app/home/templates/videoModal.tpl.html',
+      controller: 'VideoModalController',
+      controllerAs: 'vidModCtrl',
+      size: 'lg',
+      resolve: {
+        videoUrl: () => {
+          return url;
+        }
+      }
+    });
+  }
+
+  deleteVideo (index) {
+    this.$localStorage.videos.splice(index, 1);
+  }
+
+  manageFavorite(index) {
+    let stored = this.$localStorage.videos[index];
+    stored.favorite = !stored.favorite;
   }
 }

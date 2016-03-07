@@ -1,13 +1,20 @@
 <div>
   <div class="button btn btn-default" ng-click="main.clearStoredVideos()">Usuń wszystkie filmy</div>
-
+  <div class="button btn btn-default" ng-click="main.logVideos()">Console log filmow</div>
   <div class="col-md-12">
     <div class="checkbox">
       <label><input type="checkbox" ng-model="main.randomFilter">Only favorites</label>
     </div>
   </div>
   <div class="col-md-4" ng-repeat="video in main.video_details">
-    <video-panel title="{{video.title}}" get-video-full-url="main.getVideoFullUrl(video_id)" index="{{$index}}" vid="video"></video-panel>
+    <video-panel
+      vid="video"
+      title="{{video.title}}"
+      index="{{$index}}"
+      get-video-full-url="main.getVideoFullUrl(video_id)"
+      open-video-modal="main.openVideoModal(url)"
+      delete-video="main.deleteVideo(index)">
+    </video-panel>
   </div>
   <video-add></video-add>
 </div>
