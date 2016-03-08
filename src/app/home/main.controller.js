@@ -1,13 +1,24 @@
 export class MainController {
-  constructor ($timeout, webDevTec, toastr, $sce, videoService, $log) {
+  constructor ($timeout, webDevTec, toastr, $sce, videoService, $log, $scope) {
     'ngInject';
     this.videoService = videoService;
     this.$log = $log;
-    this.showPreview = false;
-    this.video_details = [];
+    this.$scope = $scope;
     this.tmp_video = {};
+    this.video_details = [];
+    this.show_preview = false;
+    this.is_favorite_filter = false;
 
     let videoInfoHelper;
+
+    this.sort_videos = {
+      sort_desc: true,
+      values : [
+        { label: 'Od najnowszych', value: true },
+        { label: 'Od najstarszych', value: false }
+      ]
+    };
+
 
     this.videos = this.videoService.getVideosFromStorage() || [];
     videoInfoHelper = this.getVideoInfo(this.videos);
@@ -30,7 +41,7 @@ export class MainController {
    * @returns
    */
   getPreview(video = this.tmp_video) {
-    this.showPreview = false;
+    this.show_preview = false;
     if(!video.url) return;
 
     if(this.video_details.some(vid => video.url === vid.url)) {
@@ -42,7 +53,7 @@ export class MainController {
       videos_data => {
         if(videos_data) {
           this.tmp_video = videos_data[0];
-          this.showPreview = true;
+          this.show_preview = true;
         }
     });
   }
@@ -57,7 +68,7 @@ export class MainController {
   }
 
   clearTmpVideo() {
-    this.showPreview = false;
+    this.show_preview = false;
     this.tmp_video = {};
   }
 
@@ -87,14 +98,9 @@ export class MainController {
   }
 
   manageFavorite(index) {
-    this.$log.debug('aaa');
-    this.$log.debug(index);
     this.videoService.manageFavorite(index);
     this.video_details[index].favorite = !this.video_details[index].favorite;
   }
-
-
-
 
   logVideos() {
     this.$log.debug(this.video_details);

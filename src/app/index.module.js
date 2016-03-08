@@ -1,6 +1,6 @@
 /* global malarkey:false, moment:false */
 
-import * as _ from '../../node_modules/lodash/lodash';
+//import * as _ from '../../node_modules/lodash/lodash';
 import { config } from './index.config';
 import { routerConfig } from './index.route';
 import { runBlock } from './index.run';
@@ -13,13 +13,26 @@ import { MalarkeyDirective } from '../app/components/malarkey/malarkey.directive
 import { VideoPanelDirective } from '../app/home/directives/videoPanel.directive';
 import { VideoAddDirective } from '../app/home/directives/videoAdd.directive';
 import { VideoPanelService } from '../app/home/services/videoPanel.service';
+import { favoriteVideoFilter } from '../app/home/filters/favoriteVideo.filter';
 
-angular.module('ytChallenge', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ui.bootstrap', 'toastr', 'ngStorage'])
-  .constant('malarkey', malarkey)
+angular.module('ytChallenge', [
+  'ngAnimate',
+  'ngCookies',
+  'ngTouch',
+  'ngSanitize',
+  'ngMessages',
+  'ngAria',
+  'ui.router',
+  'ui.bootstrap',
+  'toastr',
+  'ngStorage',
+  'angularUtils.directives.dirPagination'
+]).constant('malarkey', malarkey)
   .constant('moment', moment)
   .config(config)
   .config(routerConfig)
   .run(runBlock)
+  .filter('favoriteVideoFilter', favoriteVideoFilter )
   .service('githubContributor', GithubContributorService)
   .service('webDevTec', WebDevTecService)
   .service('videoService', VideoPanelService)

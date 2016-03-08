@@ -2,13 +2,13 @@
  * Created by nowacki on 18.02.2016.
  */
 export class VideoPanelService {
-  constructor ($http, $log, $localStorage, $modal) {
+  constructor ($http, $log, $localStorage, $uibModal) {
     'ngInject'
 
     this.$http = $http;
     this.$log = $log;
     this.$localStorage = $localStorage;
-    this.$modal = $modal;
+    this.$uibModal = $uibModal;
   }
 
   /**
@@ -90,7 +90,7 @@ export class VideoPanelService {
   }
 
   openVideoModal (url) {
-    this.$modal.open({
+    this.$uibModal.open({
       templateUrl: 'app/home/templates/videoModal.tpl.html',
       controller: 'VideoModalController',
       controllerAs: 'vidModCtrl',

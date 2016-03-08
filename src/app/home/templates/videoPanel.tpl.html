@@ -4,12 +4,15 @@
     <div class="video">
       <a href="javascript: void(0)"
          ng-click="vidPanelCtrl.openVideoModal({url: vidPanelCtrl.shorthandUrl})">
-        <img src="{{vidPanelCtrl.vid.thumbnailUrl}}" alt="Miniaturka filmiku" />
+        <img src="{{::vidPanelCtrl.vid.thumbnailUrl}}" alt="Miniaturka filmiku" />
       </a>
       <div class="video-description col-md-12">
         <div>
-          Views: {{:: vidPanelCtrl.vid.viewCount | number}}
+          Wyświetleń: {{:: vidPanelCtrl.vid.viewCount | number}}
           <i class="fa fa-thumbs-o-up"></i>{{:: vidPanelCtrl.vid.likeCount | number}}
+        <p>
+          Dodano: {{:: vidPanelCtrl.vid.date_created | date: "dd.MM.yyyy H:m"}}
+        </p>
         </div>
         <div>
           <a href="{{:: vidPanelCtrl.fullUrl }}"
