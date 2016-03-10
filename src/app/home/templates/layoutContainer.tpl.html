@@ -1,0 +1,20 @@
+<div ng-if="containerCtrl.videosPerPage <= 15" class="layout-container">
+  <ng-transclude></ng-transclude>
+</div>
+
+<div ng-if="containerCtrl.videosPerPage >= 15" class="layout-container">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Image</th>
+      <th>Title</th>
+      <th>Info</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <ng-transclude></ng-transclude>
+  </table>
+</div>
+
+
+
