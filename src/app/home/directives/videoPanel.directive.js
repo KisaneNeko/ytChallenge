@@ -19,6 +19,8 @@ export function VideoPanelDirective($sce, $log, videoService) {
 
   function _videoPanelController(){
     this.manageFavorite = manageFavorite.bind(this);
+    //this.showPanels = this.videosPerPage <= 15;
+    this.showPanels = false;
     const _getUrls = _getSafeUrls.bind(this);
 
     ( {shorthandUrl: this.shorthandUrl, fullUrl: this.fullUrl} = _getUrls(this.vid.url));
@@ -40,13 +42,14 @@ export function VideoPanelDirective($sce, $log, videoService) {
       index: '@',
       vid: '=',
       isPreview: '=',
+      videosPerPage: '=',
       openVideoModal: '&',
       getVideoFullUrl: '&',
       deleteVideo: '&'
     },
-    templateUrl: 'app/home/templates/videoPanel.tpl.html',
     bindToController: true,
     controllerAs: 'vidPanelCtrl',
-    controller: _videoPanelController
+    controller: _videoPanelController,
+    templateUrl: 'app/home/templates/videoPanel.tpl.html'
   };
 }
