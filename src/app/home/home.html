@@ -7,7 +7,14 @@
       <label>Sortuj po dacie:
         <select
           ng-model="main.sort_videos.sort_desc"
-          ng-options="options.value as options.label for options in main.sort_videos.values">
+          ng-options="options.value as options.label for options in main.sort_videos.options">
+          >
+        </select>
+      </label>
+      <label>Liczba elementów na stronie:
+        <select
+          ng-model="main.page_layout_options.videos_on_page"
+          ng-options="options.value as options.label for options in main.page_layout_options.options">
           >
         </select>
       </label>
@@ -15,7 +22,7 @@
   </div>
   <div class="video-list">
     <div class="video-panel col-md-4"
-         dir-paginate="video in main.video_details | favoriteVideoFilter: main.is_favorite_filter | orderBy: 'date_created' : main.sort_videos.sort_desc | itemsPerPage: 3 ">
+         dir-paginate="video in main.video_details | favoriteVideoFilter: main.is_favorite_filter | orderBy: 'date_created' : main.sort_videos.sort_desc | itemsPerPage: main.page_layout_options.videos_on_page ">
       <video-panel
         vid="video"
         title="{{video.title}}"

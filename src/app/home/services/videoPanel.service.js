@@ -1,6 +1,7 @@
 /**
  * Created by nowacki on 18.02.2016.
  */
+
 export class VideoPanelService {
   constructor ($http, $log, $localStorage, $uibModal) {
     'ngInject'
@@ -11,41 +12,32 @@ export class VideoPanelService {
     this.$uibModal = $uibModal;
   }
 
-  /**
-   * @TODO: Jak wysylam request po X filmow w danej kolejnosci to jak upewnic się czy sie nie pomieszaja, jak jeden
-   * id bedzie nieprawidlowy
-   *
-   * @param basics
-   * @param details
-   */
-  prepareVideoData(basics, details) {
-  return basics.map((vid, i) => {
-    let snippet = details[i].snippet;
-    let stats = details[i].statistics;
+  ////////////////////////////
+  /////   PUBLIC
+  ////////////////////////////
 
+  getVideoLayoutOptions () {
     return {
-      id: vid.id,
-      date_created: vid.date_created,
-      url: vid.url,
-      title: snippet.title,
-      thumbnailUrl: snippet.thumbnails.medium.url,
-      likeCount: stats.likeCount,
-      viewCount: stats.viewCount,
-      favorite: !!vid.favorite
-      }
-    })
+      videos_on_page: 3,
+      options: [
+        { label: '3', value: 3 },
+        { label: '6', value: 6 },
+        { label: '9', value: 9 },
+        { label: '15', value: 15 },
+        { label: '50', value: 50 },
+        { label: '100', value: 100 }
+      ]
+    }
   }
 
-  sendRequestForVideos(video_id) {
-    return this.$http({
-      method: 'GET',
-      url: 'https://www.googleapis.com/youtube/v3/videos',
-      params: {
-        id: video_id,
-        key: "AIzaSyD2ZZ6QC7Ly8JR-YoUHIixj_7xpf7Lo5nQ",
-        part: "snippet,contentDetails,statistics,status"
-      }
-    }).then(this.handleSuccess, this.handleErr)
+  getVideosSortOptions () {
+    return {
+      sort_desc: true,
+      options : [
+        { label: 'Od najnowszych', value: true },
+        { label: 'Od najstarszych', value: false }
+      ]
+    }
   }
 
   getYoutubeVideos(vids_basic_info) {
@@ -53,24 +45,12 @@ export class VideoPanelService {
       return vid.url;
     }).join(",");
 
-    return this.sendRequestForVideos(video_ids).then((resp) => {
+    return this._sendRequestForVideos(video_ids).then((resp) => {
       let videos_info = resp.data.items;
       if(videos_info.length !== 0) {
-        return this.prepareVideoData(vids_basic_info, resp.data.items)
+        return this._prepareVideoData(vids_basic_info, resp.data.items)
       }
     });
-  }
-
-  handleErr(response) {
-    this.$log.error('HTTP request failed with status:' + response.status);
-    return { status: 'fail' }
-  }
-
-  static handleSuccess(response){
-    return {
-      status: 'success',
-      data: response.data
-    }
   }
 
   storeVideos(video_data) {
@@ -103,12 +83,70 @@ export class VideoPanelService {
     });
   }
 
-  deleteVideo (index) {
-    this.$localStorage.videos.splice(index, 1);
+  deleteVideo (video_id) {
+    let stored_videos = this.$localStorage.videos;
+    let index = _.findIndex(stored_videos, {url : video_id});
+
+    stored_videos.splice(index, 1);
   }
 
   manageFavorite(index) {
     let stored = this.$localStorage.videos[index];
     stored.favorite = !stored.favorite;
+  }
+
+
+
+////////////////////////////
+/////   PRIVATE
+////////////////////////////
+
+  /**
+   * @TODO: Jak wysylam request po X filmow w danej kolejnosci to jak upewnic się czy sie nie pomieszaja, jak jeden
+   * id bedzie nieprawidlowy
+   *
+   * @param basics
+   * @param details
+   */
+  _prepareVideoData(basics, details) {
+    return basics.map((vid, i) => {
+      let snippet = details[i].snippet;
+      let stats = details[i].statistics;
+
+      return {
+        id: vid.id,
+        date_created: vid.date_created,
+        url: vid.url,
+        title: snippet.title,
+        thumbnailUrl: snippet.thumbnails.medium.url,
+        likeCount: stats.likeCount,
+        viewCount: stats.viewCount,
+        favorite: !!vid.favorite
+      }
+    })
+  }
+
+  _sendRequestForVideos(video_id) {
+    return this.$http({
+      method: 'GET',
+      url: 'https://www.googleapis.com/youtube/v3/videos',
+      params: {
+        id: video_id,
+        key: "AIzaSyD2ZZ6QC7Ly8JR-YoUHIixj_7xpf7Lo5nQ",
+        part: "snippet,contentDetails,statistics,status"
+      }
+    }).then(this._handleSuccess, this._handleErr)
+  }
+
+  _handleErr(response) {
+    this.$log.error('HTTP request failed with status:' + response.status);
+    return { status: 'fail' }
+  }
+
+  _handleSuccess(response){
+    return {
+      status: 'success',
+      data: response.data
+    }
   }
 }

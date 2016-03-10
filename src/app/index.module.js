@@ -1,6 +1,6 @@
 /* global malarkey:false, moment:false */
 
-//import * as _ from '../../node_modules/lodash/lodash';
+import * as _ from '../../node_modules/lodash/lodash';
 import { config } from './index.config';
 import { routerConfig } from './index.route';
 import { runBlock } from './index.run';
