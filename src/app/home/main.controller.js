@@ -11,7 +11,13 @@ export class MainController {
     this.page_layout_options = this._videoService.getVideoLayoutOptions();
     this.sort_videos = this._videoService.getVideosSortOptions();
     this.videos = this._videoService.getVideosFromStorage() || [];
-
+    this.addVideoModelOptions = {
+      updateOn: 'default blur',
+      debounce: {
+        default: 500,
+        blur: 0
+      }
+    };
     let videoInfoHelper = this._getVideoInfo(this.videos);
 
     this.video_details = videoInfoHelper ? videoInfoHelper : this.video_details;
