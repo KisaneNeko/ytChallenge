@@ -2,9 +2,10 @@
  * Created by nowacki on 21.03.2016.
  */
 export class VideoPanelController{
-    constructor($sce) {
+    constructor($sce, videoService) {
     'ngInject';
       this.$sce = $sce;
+      this.videoService = videoService;
 
       this.manageFavorite = this.manageFavorite.bind(this);
       //this.showPanels = this.videosPerPage <= 15;
@@ -19,7 +20,7 @@ export class VideoPanelController{
   ////////////////////////////
 
   manageFavorite () {
-    videoService.manageFavorite(this.index);
+    this.videoService.manageFavorite(this.index);
     this.vid.favorite = !this.vid.favorite;
   }
 

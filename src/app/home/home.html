@@ -21,9 +21,9 @@
     </div>
   </div>
   <layout-container videos-per-page="main.page_layout_options.videos_on_page">
-
     <div ng-if="!main.isListView">
       <div
+        class="video-panel col-md-4"
         pagination-id="main.getLayoutOption();"
         dir-paginate="video in main.video_details | favoriteVideoFilter: main.is_favorite_filter | orderBy: 'date_created' : main.sort_videos.sort_desc | itemsPerPage: main.page_layout_options.videos_on_page"
 
@@ -49,6 +49,7 @@
         open-video-modal="main.openVideoModal(url)"
         delete-video="main.deleteVideo(index)">
     </div>
+
   </layout-container>
 
   <div class="pagination col-md-12">
