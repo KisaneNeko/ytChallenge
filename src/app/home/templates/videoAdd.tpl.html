@@ -11,16 +11,11 @@
         </label>
       </div>
       <div class="video-preview" ng-if="main.show_preview">
-        <video-panel title="{{main.tmp_video.title}}" get-video-full-url="main.getVideoFullUrl(video_id, is_shorthand)" is-preview="true" vid="main.tmp_video"></video-panel>
+        <div video-panel title="{{main.tmp_video.title}}" get-video-full-url="main.getVideoFullUrl(video_id, is_shorthand)" is-preview="true" vid="main.tmp_video"></div>
 
         <button class="button btn btn-default" type="submit">Dodaj do biblioteki</button>
         <div class="button btn btn-default" ng-click="main.clearTmpVideo()">Anuluj</div>
       </div>
-
     </form>
-
   </div>
 </div>
-
-
-<!-- random video id: HmWm21cCAXM -->

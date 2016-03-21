@@ -13,11 +13,14 @@ export class MainController {
     this.videos = this._videoService.getVideosFromStorage() || [];
     let videoInfoHelper = this._getVideoInfo(this.videos);
 
+    $scope.$watch('main.page_layout_options.videos_on_page', () => {
+      this.isListView = this.page_layout_options.videos_on_page > 15;
+    });
     this.video_details = videoInfoHelper ? videoInfoHelper : this.video_details;
   }
 
   ////////////////////////////
-  /////   PRIVATE
+  /////   PUBLIC
   ////////////////////////////
 
   /**
@@ -97,6 +100,10 @@ export class MainController {
 
   logVideos() {
     this._$log.debug(this.video_details);
+  }
+
+  getLayoutOption() {
+    return this.page_layout_options.videos_on_page <= 15 ? 'panelPagination' : 'listPagination';
   }
 
   ////////////////////////////

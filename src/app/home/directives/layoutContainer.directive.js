@@ -7,7 +7,7 @@ export function LayoutContainerDirective() {
     return {
       restrict: 'E',
       scope: {
-        videosPerPage: "="
+        videosPerPage : '='
       },
       templateUrl: 'app/home/templates/layoutContainer.tpl.html',
       transclude: true,
