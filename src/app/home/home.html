@@ -20,12 +20,11 @@
       </label>
     </div>
   </div>
-  <layout-container videos-per-page="main.page_layout_options.videos_on_page">
-    <div class="video-list">
+    <div class="video-list layout-container" ng-if="main.page_layout_options.videos_on_page <= 15">
         <div class="video-panel col-md-4"
-             dir-paginate="video in main.video_details | favoriteVideoFilter: main.is_favorite_filter | orderBy: 'date_created' : main.sort_videos.sort_desc | itemsPerPage: main.page_layout_options.videos_on_page ">
+             pagination-id="panelPagination"
+             dir-paginate="video in main.video_details | favoriteVideoFilter: main.is_favorite_filter | orderBy: 'date_created' : main.sort_videos.sort_desc | itemsPerPage: main.page_layout_options.videos_on_page">
           <video-panel
-            videos-per-page="main.page_layout_options.videos_on_page"
             vid="video"
             title="{{video.title}}"
             index="{{$index}}"
@@ -35,12 +34,44 @@
           </video-panel>
         </div>
     </div>
-  </layout-container>
+    <div class="video-list layout-container" ng-if="main.page_layout_options.videos_on_page > 15">
+      <table class="table table-condensed">
+        <thead>
+        <tr>
+          <th>Image</th>
+          <th>Title</th>
+          <th>Info</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody video-list-item
+               dir-paginate="video in main.video_details | favoriteVideoFilter: main.is_favorite_filter | orderBy: 'date_created' : main.sort_videos.sort_desc | itemsPerPage: main.page_layout_options.videos_on_page"
+               pagination-id="listPagination"
+               vid="video"
+               title="{{video.title}}"
+               index="{{$index}}"
+               get-video-full-url="main.getVideoFullUrl(video_id)"
+               open-video-modal="main.openVideoModal(url)"
+               delete-video="main.deleteVideo(index)">
+        </tbody>
+      </table>
+    </div>
   <div class="pagination col-md-12">
+
     <dir-pagination-controls
+      ng-if="main.page_layout_options.videos_on_page <= 15"
       direction-links="true"
+      pagination-id="panelPagination"
       boundary-links="true">
     </dir-pagination-controls>
+
+    <dir-pagination-controls
+      ng-if="main.page_layout_options.videos_on_page > 15"
+      direction-links="true"
+      pagination-id="listPagination"
+      boundary-links="true">
+    </dir-pagination-controls>
+
   </div>
   <video-add></video-add>
 </div>
