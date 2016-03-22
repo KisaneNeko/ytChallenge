@@ -1,5 +1,5 @@
 export class MainController {
-  constructor ($timeout, webDevTec, toastr, $sce, videoService, $log, $scope) {
+  constructor (videoService, $log, $scope) {
     'ngInject';
     this._videoService = videoService;
     this._$log = $log;
@@ -11,12 +11,12 @@ export class MainController {
     this.page_layout_options = this._videoService.getVideoLayoutOptions();
     this.sort_videos = this._videoService.getVideosSortOptions();
     this.videos = this._videoService.getVideosFromStorage() || [];
-    let videoInfoHelper = this._getVideoInfo(this.videos);
+
+    this._getVideoInfo(this.videos);
 
     $scope.$watch('main.page_layout_options.videos_on_page', () => {
       this.isListView = this.page_layout_options.videos_on_page > 15;
     });
-    this.video_details = videoInfoHelper ? videoInfoHelper : this.video_details;
   }
 
   ////////////////////////////
@@ -32,27 +32,21 @@ export class MainController {
     this.show_preview = false;
     if(!video.url) return;
 
-
-    return this._videoService.getYoutubeVideos([ video ]).then(
-      videos_data => {
-        if(videos_data) {
-          this.tmp_video = videos_data[0];
-          this.show_preview = true;
-        }
-    });
+    return this._videoService.getYoutubeVideos([ video ])
+      .then( videos_data => videos_data ? videos_data[0] : {} )
+      .then( video => {
+        this.tmp_video = video;
+        this.show_preview = true;
+      });
   }
 
-  addTmpVideo(newVideo) {
-    if(!newVideo.url) return;
-    if(this.video_details.some(vid => newVideo.url === vid.url)) {
-      this.$log.error('This video is already in the library');
+  submitTmpVideo(newVideo) {
+    if(!newVideo.url || this._isDuplicate(newVideo, this.video_details)) {
+      this.$log.error('This video is already in the library or the ID is incorrect');
       return;
     }
 
-    newVideo.date_created = Date.now();
-    newVideo.id  = this.video_details ? this.video_details.length : 0;
-    this.video_details.push(newVideo);
-    this._videoService.storeVideos(newVideo);
+    this._addNewVideo(newVideo, this.video_details);
     this.clearTmpVideo();
   }
 
@@ -82,10 +76,10 @@ export class MainController {
   }
 
   deleteVideo(video_id) {
-    // remove niepotrzebnie będzie kontynuować przeszukiwanie po usunięciu elementu
+    // _.remove niepotrzebnie będzie kontynuować przeszukiwanie po usunięciu elementu
     let index = _.findIndex(this.video_details, {url: video_id});
     if(index === -1){
-      this._$log.error('Wystąpił błąd: nie znaleziono filmiku w zbiorze');
+      this._$log.warn('Wystąpił błąd: nie znaleziono filmiku w zbiorze');
       return;
     }
 
@@ -98,25 +92,34 @@ export class MainController {
     this.video_details[index].favorite = !this.video_details[index].favorite;
   }
 
+  getLayoutOption() {
+    return this.page_layout_options.videos_on_page <= 15 ? 'panelPagination' : 'listPagination';
+  }
+
   logVideos() {
     this._$log.debug(this.video_details);
   }
 
-  getLayoutOption() {
-    return this.page_layout_options.videos_on_page <= 15 ? 'panelPagination' : 'listPagination';
-  }
 
   ////////////////////////////
   /////   PRIVATE
   ////////////////////////////
 
   _getVideoInfo(vids) {
-    this._videoService.getYoutubeVideos(vids).then((videos_data) => {
-      if(videos_data) {
-        // do wywalenia jak ogarnę jak to zrobic immutable
-        this.video_details = videos_data;
-      }
-      return videos_data ? videos_data : [];
-    });
+    this._videoService.getYoutubeVideos(vids)
+      .then(videos_data =>  videos_data ? videos_data : [])
+      .then(data => this.video_details = data);
+  }
+
+  _addNewVideo (newVideo, video_details) {
+    newVideo.date_created = Date.now();
+    newVideo.id  = this.video_details ? this.video_details.length : 0;
+
+    video_details.push(newVideo);
+    this._videoService.storeVideos(newVideo);
+  }
+
+  _isDuplicate( newVideo, videoList ) {
+    return videoList.some( vid => newVideo.url === vid.url )
   }
 }

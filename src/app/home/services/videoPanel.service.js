@@ -41,16 +41,13 @@ export class VideoPanelService {
   }
 
   getYoutubeVideos(vids_basic_info) {
-    let video_ids = vids_basic_info.map((vid) => {
-      return vid.url;
-    }).join(",");
+    let video_ids = vids_basic_info.map(vid => vid.url).join(",");
 
-    return this._sendRequestForVideos(video_ids).then((resp) => {
-      let videos_info = resp.data.items;
-      if(videos_info.length !== 0) {
-        return this._prepareVideoData(vids_basic_info, resp.data.items)
-      }
-    });
+    return this._sendRequestForVideos(video_ids)
+      .then( resp => resp.data.items )
+      .then( videos_info => {
+        return (videos_info.length !== 0) ? this._prepareVideoData(vids_basic_info, videos_info) : []
+      });
   }
 
   storeVideos(video_data) {
@@ -76,9 +73,7 @@ export class VideoPanelService {
       controllerAs: 'vidModCtrl',
       size: 'lg',
       resolve: {
-        videoUrl: () => {
-          return url;
-        }
+        videoUrl: url
       }
     });
   }
