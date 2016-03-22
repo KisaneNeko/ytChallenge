@@ -7,12 +7,6 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
       controller: 'MainController',
       controllerAs: 'main'
     })
-    .state('videoAdd', {
-      url: '/videoAdd',
-      templateUrl: 'app/videoAdd/videoAdd.html',
-      controller: 'VideoAddController',
-      controllerAs: 'vAddCtrl'
-    })
   ;
 
   $urlRouterProvider.otherwise('/');

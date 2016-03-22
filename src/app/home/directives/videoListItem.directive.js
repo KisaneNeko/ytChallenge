@@ -3,7 +3,7 @@
  */
 import { VideoPanelController } from '../controllers/VideoPanel.controller';
 
-export function VideoPanelDirective() {
+export function VideoListItemDirective() {
   'ngInject';
 
   return {
@@ -12,14 +12,14 @@ export function VideoPanelDirective() {
       title : '@',
       index: '@',
       vid: '=',
-      isPreview: '=',
       openVideoModal: '&',
       getVideoFullUrl: '&',
       deleteVideo: '&'
     },
+    replace: true,
     bindToController: true,
-    controllerAs: 'vidPanelCtrl',
+    controllerAs: 'vidListItemCtrl',
     controller: VideoPanelController,
-    templateUrl: 'app/home/templates/videoPanel.tpl.html'
+    templateUrl: 'app/home/templates/videoListItem.tpl.html'
   };
 }

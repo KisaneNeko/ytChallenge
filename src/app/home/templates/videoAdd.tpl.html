@@ -1,7 +1,7 @@
 <div class="menu-category list-group col-md-12">
   <div class="menu-category-name list-group-item active">Add new video</div>
   <div class="menu-item list-group-item">
-    <form role="form" ng-submit="main.addTmpVideo(main.tmp_video)">
+    <form role="form" ng-submit="main.submitTmpVideo(main.tmp_video)">
       <div class="video-add-form form-inline">
         <label class="control-label">Id filmiku:
           <input class="form-control" type="text"
@@ -11,16 +11,10 @@
         </label>
       </div>
       <div class="video-preview" ng-if="main.show_preview">
-        <video-panel title="{{main.tmp_video.title}}" get-video-full-url="main.getVideoFullUrl(video_id, is_shorthand)" is-preview="true" vid="main.tmp_video"></video-panel>
-
+        <div class="col-md-12" video-panel title="{{main.tmp_video.title}}" get-video-full-url="main.getVideoFullUrl(video_id, is_shorthand)" is-preview="true" vid="main.tmp_video"></div>
         <button class="button btn btn-default" type="submit">Dodaj do biblioteki</button>
         <div class="button btn btn-default" ng-click="main.clearTmpVideo()">Anuluj</div>
       </div>
-
     </form>
-
   </div>
 </div>
-
-
-<!-- random video id: HmWm21cCAXM -->

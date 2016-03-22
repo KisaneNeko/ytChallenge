@@ -1,38 +1,36 @@
-<div class="menu-category list-group">
-  <div class="menu-category-name list-group-item active">
-    {{::vidPanelCtrl.vid.title}}
-  </div>
-  <article class="menu-item list-group-item videoBox">
-    <div class="video">
-      <a href="javascript: void(0)"
-         ng-click="vidPanelCtrl.openVideoModal({url: vidPanelCtrl.shorthandUrl})">
-        <img src="{{::vidPanelCtrl.vid.thumbnailUrl}}" alt="Miniaturka filmiku" />
+<div class="menu-category-name list-group-item active">
+{{::vidPanelCtrl.vid.title}}
+</div>
+<article class="menu-item list-group-item videoBox">
+<div class="video">
+  <a href="javascript: void(0)"
+     ng-click="vidPanelCtrl.openVideoModal({url: vidPanelCtrl.shorthandUrl})">
+    <img src="{{::vidPanelCtrl.vid.thumbnailUrl}}" alt="Miniaturka filmiku" />
+  </a>
+  <div class="video-description col-md-12">
+    <div>
+      Wyświetleń: {{:: vidPanelCtrl.vid.viewCount | number}}
+      <i class="fa fa-thumbs-o-up"></i>{{:: vidPanelCtrl.vid.likeCount | number}}
+    <p>
+      Dodano: {{:: vidPanelCtrl.vid.date_created | date: "dd.MM.yyyy H:m"}}
+    </p>
+    </div>
+    <div>
+      <a href="{{:: vidPanelCtrl.fullUrl }}"
+         target="_blank"> Watch on <i class="fa fa-youtube"></i>
       </a>
-      <div class="video-description col-md-12">
-        <div>
-          Wyświetleń: {{:: vidPanelCtrl.vid.viewCount | number}}
-          <i class="fa fa-thumbs-o-up"></i>{{:: vidPanelCtrl.vid.likeCount | number}}
-        <p>
-          Dodano: {{:: vidPanelCtrl.vid.date_created | date: "dd.MM.yyyy H:m"}}
-        </p>
-        </div>
-        <div>
-          <a href="{{:: vidPanelCtrl.fullUrl }}"
-             target="_blank"> Watch on <i class="fa fa-youtube"></i>
-          </a>
-        </div>
-        <div ng-if="!vidPanelCtrl.isPreview">
-          <div class="button btn"
-               ng-class="vidPanelCtrl.vid.favorite ? 'btn-danger' : 'btn-default'"
-               ng-click="vidPanelCtrl.manageFavorite()">
-            {{vidPanelCtrl.vid.favorite ? 'Usuń z ulubionych' : 'Dodaj do ulubionych'}}
-          </div>
-          <div class="button btn btn-default"
-               ng-click="vidPanelCtrl.deleteVideo({index: vidPanelCtrl.vid.url})">
-            Usuń z biblioteki
-          </div>
-        </div>
+    </div>
+    <div ng-if="!vidPanelCtrl.isPreview">
+      <div class="button btn"
+           ng-class="vidPanelCtrl.vid.favorite ? 'btn-danger' : 'btn-default'"
+           ng-click="vidPanelCtrl.manageFavorite()">
+        {{vidPanelCtrl.vid.favorite ? 'Usuń z ulubionych' : 'Dodaj do ulubionych'}}
+      </div>
+      <div class="button btn btn-default"
+           ng-click="vidPanelCtrl.deleteVideo({index: vidPanelCtrl.vid.url})">
+        Usuń z biblioteki
       </div>
     </div>
-  </article>
+  </div>
 </div>
+</article>

@@ -1,0 +1,33 @@
+<tr>
+  <!--Image-->
+  <td>
+    <a href="javascript: void(0)"
+       ng-click="vidListItemCtrl.openVideoModal({url: vidListItemCtrl.shorthandUrl})">
+      <img src="{{::vidListItemCtrl.vid.thumbnailUrl}}" alt="Miniaturka filmiku" />
+    </a>
+  </td>
+  <!-- Title -->
+  <td>
+    {{::vidListItemCtrl.vid.title}}
+  </td>
+  <!--Informacje - like, views -->
+  <td>
+    Wyświetleń: {{:: vidListItemCtrl.vid.viewCount | number}}
+    <i class="fa fa-thumbs-o-up"></i>{{:: vidListItemCtrl.vid.likeCount | number}}
+    <p>
+      Dodano: {{:: vidListItemCtrl.vid.date_created | date: "dd.MM.yyyy H:m"}}
+    </p>
+  </td>
+  <!-- Buttony -->
+  <td>
+
+    <a href="javascript: void(0)" ng-click="vidListItemCtrl.manageFavorite()">
+      <i ng-if="vidListItemCtrl.vid.favorite" class="fa fa-star" title="Usuń z ulubionych"></i>
+      <i ng-if="!vidListItemCtrl.vid.favorite" class="fa fa-star-o" title="Dodaj do ulubionych"></i>
+    </a>
+
+    <a href="javascript: void(0)">
+      <i class="fa fa-times" title="Usuń z biblioteki" ng-click="vidListItemCtrl.deleteVideo({index: vidListItemCtrl.vid.url})"></i>
+    </a>
+  </td>
+</tr>

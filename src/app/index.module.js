@@ -11,7 +11,9 @@ import { WebDevTecService } from '../app/components/webDevTec/webDevTec.service'
 import { NavbarDirective } from '../app/components/navbar/navbar.directive';
 import { MalarkeyDirective } from '../app/components/malarkey/malarkey.directive';
 import { VideoPanelDirective } from '../app/home/directives/videoPanel.directive';
+import { VideoListItemDirective } from '../app/home/directives/videoListItem.directive';
 import { VideoAddDirective } from '../app/home/directives/videoAdd.directive';
+import { LayoutContainerDirective } from '../app/home/directives/layoutContainer.directive';
 import { VideoPanelService } from '../app/home/services/videoPanel.service';
 import { favoriteVideoFilter } from '../app/home/filters/favoriteVideo.filter';
 
@@ -41,4 +43,6 @@ angular.module('ytChallenge', [
   .directive('acmeNavbar', NavbarDirective)
   .directive('acmeMalarkey', MalarkeyDirective)
   .directive('videoPanel', VideoPanelDirective)
-  .directive('videoAdd', VideoAddDirective);
+  .directive('videoListItem', VideoListItemDirective)
+  .directive('videoAdd', VideoAddDirective)
+  .directive('layoutContainer', LayoutContainerDirective);
