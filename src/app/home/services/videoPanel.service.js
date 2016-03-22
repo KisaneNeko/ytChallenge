@@ -90,7 +90,26 @@ export class VideoPanelService {
     stored.favorite = !stored.favorite;
   }
 
+  /**
+   * Shorthand prefix nie sprawdza się przy przekierowaniu do strony youtube.
+   * @param video_id
+   * @returns {string}
+   */
+  getVideoFullUrl(video_id) {
+    const shorthandUrl = `https://www.youtube.com/v/${video_id}`;
+    const fullUrl = `https://www.youtube.com/watch?v=${video_id}`;
+    return { shorthandUrl, fullUrl };
+  }
 
+  getVideoModelOptions() {
+    return {
+      updateOn: 'default blur',
+      debounce: {
+        default: 500,
+        blur: 0
+      }
+    };
+  }
 
 ////////////////////////////
 /////   PRIVATE

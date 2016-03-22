@@ -2,8 +2,9 @@ export class MainController {
   constructor (videoService, $log, $scope) {
     'ngInject';
     this._videoService = videoService;
-    this._$log = $log;
+    this.$log = $log;
     this.$scope = $scope;
+    this.getVideoFullUrl = this._videoService.getVideoFullUrl;
     this.tmp_video = {};
     this.video_details = [];
     this.show_preview = false;
@@ -11,13 +12,7 @@ export class MainController {
     this.page_layout_options = this._videoService.getVideoLayoutOptions();
     this.sort_videos = this._videoService.getVideosSortOptions();
     this.videos = this._videoService.getVideosFromStorage() || [];
-    this.addVideoModelOptions = {
-      updateOn: 'default blur',
-      debounce: {
-        default: 500,
-        blur: 0
-      }
-    };
+    this.videoModelOptions = this._videoService.getVideoModelOptions();
     this._getVideoInfo(this.videos);
 
     $scope.$watch('main.page_layout_options.videos_on_page', () => {
@@ -34,20 +29,18 @@ export class MainController {
    * @todo: dodać loading animation
    * @returns
    */
-  getPreview(video = this.tmp_video) {
+  getPreview(video_id) {
+    let vid_preview_condition = this._isVideoInvalid(video_id, this.tmp_video.url, this.video_details);
+    this.tmp_video.url = this.video_id;
     this.show_preview = false;
-    if(!video.url) return;
 
-    return this._videoService.getYoutubeVideos([ video ])
-      .then( videos_data => videos_data ? videos_data[0] : {} )
-      .then( video => {
-        this.tmp_video = video;
-        this.show_preview = true;
-      });
+    if(vid_preview_condition) return;
+    this.tmp_video.url = video_id;
+    return this._getPreviewRequest(this.tmp_video);
   }
 
   submitTmpVideo(newVideo) {
-    if(!newVideo.url || this._isDuplicate(newVideo, this.video_details)) {
+    if(!newVideo.url) {
       this.$log.error('This video is already in the library or the ID is incorrect');
       return;
     }
@@ -59,17 +52,6 @@ export class MainController {
   clearTmpVideo() {
     this.show_preview = false;
     this.tmp_video = {};
-  }
-
-  /**
-  * Shorthand prefix nie sprawdza się przy przekierowaniu do strony youtube.
-  * @param video_id
-  * @returns {string}
-  */
-  getVideoFullUrl(video_id) {
-    const shorthandUrl = `https://www.youtube.com/v/${video_id}`;
-    const fullUrl = `https://www.youtube.com/watch?v=${video_id}`;
-    return { shorthandUrl, fullUrl };
   }
 
   clearStoredVideos() {
@@ -85,7 +67,7 @@ export class MainController {
     // _.remove niepotrzebnie będzie kontynuować przeszukiwanie po usunięciu elementu
     let index = _.findIndex(this.video_details, {url: video_id});
     if(index === -1){
-      this._$log.warn('Wystąpił błąd: nie znaleziono filmiku w zbiorze');
+      this.$log.warn('Wystąpił błąd: nie znaleziono filmiku w zbiorze');
       return;
     }
 
@@ -103,9 +85,8 @@ export class MainController {
   }
 
   logVideos() {
-    this._$log.debug(this.video_details);
+    this.$log.debug(this.video_details);
   }
-
 
   ////////////////////////////
   /////   PRIVATE
@@ -125,7 +106,24 @@ export class MainController {
     this._videoService.storeVideos(newVideo);
   }
 
-  _isDuplicate( newVideo, videoList ) {
-    return videoList.some( vid => newVideo.url === vid.url )
+  _isDuplicate( newVideoId, videoList ) {
+    return videoList.some( vid => newVideoId === vid.url )
+  }
+
+  _getPreviewRequest (video) {
+    this._videoService.getYoutubeVideos([ video ])
+      .then( videos_data => videos_data ? videos_data[0] : null )
+      .then( video => {
+        if(video) this._setVideoPreview(video);
+      });
+  }
+
+  _setVideoPreview (video) {
+    this.tmp_video = video;
+    this.show_preview = true;
+  }
+
+  _isVideoInvalid(video_id, vid_initial_url, video_details) {
+    return !video_id || video_id === vid_initial_url || this._isDuplicate(video_id, video_details);
   }
 }

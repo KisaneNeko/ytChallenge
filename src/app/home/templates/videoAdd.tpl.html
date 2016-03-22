@@ -5,10 +5,13 @@
       <div class="video-add-form form-inline">
         <label class="control-label">Id filmiku:
           <input class="form-control" type="text"
-                 ng-model="main.tmp_video.url"
-                 ng-model-options="main.addVideoModelOptions"
-                 ng-change="main.getPreview()">
+                 ng-model="main.tmp_url"
+                 ng-model-options="main.videoModelOptions"
+                 ng-change="main.getPreview(main.tmp_url)">
         </label>
+        <div ng-show="main._isDuplicate(main.tmp_url, main.video_details)">
+          Ten filmik znajduje się już w bazie!
+        </div>
       </div>
       <div class="video-preview" ng-if="main.show_preview">
         <div class="col-md-12" video-panel title="{{main.tmp_video.title}}" get-video-full-url="main.getVideoFullUrl(video_id, is_shorthand)" is-preview="true" vid="main.tmp_video"></div>
